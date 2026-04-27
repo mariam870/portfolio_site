@@ -17,22 +17,22 @@ export default function Home({ featuredProjects }) {
   const categories = [
   { 
     label: 'Photographie', 
-    image: 'URL_DE_TON_IMAGE_PHOTO',
+    image: 'c:\\Users\\USER\\Downloads\\Photographie.jpg',
     desc: 'Portraits, produits, événements' 
   },
   { 
     label: 'Vidéo', 
-    image: 'c:\\Users\\USER\\Downloads\\Eburny.mp4',
+    image: URL('c:\\Users\\USER\\Downloads\\Eburny.mp4'),
     desc: 'Clips, motion design, reels' 
   },
   { 
     label: 'Community Management', 
-    image: 'URL_DE_TON_IMAGE_CM',
+    image: URL('c:\\Users\\USER\\Downloads\\Community Management.jpg'),
     desc: 'Stratégie, contenu, engagement' 
   },
   { 
     label: 'Infographie', 
-    image: 'c:\\Users\\USER\\Downloads\\Affiche Promotion young art studio.jpg',
+    image: URL('c:\\Users\\USER\\Downloads\\Affiche Promotion young art studio.jpg'),
     desc: 'Affiches, flyers, identité visuelle' 
   },
 ];
