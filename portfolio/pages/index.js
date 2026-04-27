@@ -8,12 +8,34 @@ export default function Home({ featuredProjects }) {
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
 
-  const categories = [
+  /*const categories = [
     { label: 'Photographie', icon: '📷', desc: 'Portraits, produits, événements' },
     { label: 'Vidéo', icon: '🎬', desc: 'Clips, motion design, reels' },
     { label: 'Community Management', icon: '📱', desc: 'Stratégie, contenu, engagement' },
     { label: 'Infographie', icon: '✏️', desc: 'Affiches, flyers, identité visuelle' },
-  ];
+  ];*/
+  const categories = [
+  { 
+    label: 'Photographie', 
+    image: 'URL_DE_TON_IMAGE_PHOTO',
+    desc: 'Portraits, produits, événements' 
+  },
+  { 
+    label: 'Vidéo', 
+    image: 'c:\\Users\\USER\\Downloads\\Eburny.mp4',
+    desc: 'Clips, motion design, reels' 
+  },
+  { 
+    label: 'Community Management', 
+    image: 'URL_DE_TON_IMAGE_CM',
+    desc: 'Stratégie, contenu, engagement' 
+  },
+  { 
+    label: 'Infographie', 
+    image: 'c:\\Users\\USER\\Downloads\\Affiche Promotion young art studio.jpg',
+    desc: 'Affiches, flyers, identité visuelle' 
+  },
+];
 
   return (
     <>
@@ -63,11 +85,18 @@ export default function Home({ featuredProjects }) {
           </div>
           <div className={styles.catGrid}>
             {categories.map((cat, i) => (
-              <div key={cat.label} className={styles.catCard} style={{ animationDelay: `${i * 0.1}s` }}>
+             /* <div key={cat.label} className={styles.catCard} style={{ animationDelay: `${i * 0.1}s` }}>
                 <span className={styles.catIcon}>{cat.icon}</span>
                 <h3>{cat.label}</h3>
                 <p>{cat.desc}</p>
-              </div>
+              </div>*/
+              <div key={cat.label} className={styles.catCard}>
+              <div className={styles.catImageWrap}>
+               <img src={cat.image} alt={cat.label} className={styles.catImage} />
+             </div>
+             <h3>{cat.label}</h3>
+              <p>{cat.desc}</p>
+             </div>
             ))}
           </div>
         </div>
