@@ -89,7 +89,7 @@
 }
 
 .heroTitle {
-  font-size: clamp(3rem, 7vw, 6.5rem);
+  font-size: clamp(2rem, 8vw, 6.5rem);
   font-weight: 800;
   line-height: 1.0;
   color: var(--white);
@@ -318,6 +318,8 @@
   .section { padding: 4rem 1.5rem; }
   .ctaBand { padding: 3rem 1.5rem; }
   .heroScroll { display: none; }
+  .heroTitle { font-size: clamp(1.8rem, 8vw, 3rem); }
+  .heroSub br { display: none; }
 }
 
 .catImageWrap {
