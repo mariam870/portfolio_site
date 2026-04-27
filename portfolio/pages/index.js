@@ -32,7 +32,7 @@ export default function Home({ featuredProjects }) {
   },
   { 
     label: 'Infographie', 
-    image: URL('c:\\Users\\USER\\Downloads\\Affiche Promotion young art studio.jpg'),
+    image: URL('c:\Users\USER\Downloads\Affiche Promotion young art studio.jpg'),
     desc: 'Affiches, flyers, identité visuelle' 
   },
 ];
