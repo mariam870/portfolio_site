@@ -8,7 +8,12 @@ export default function Home({ featuredProjects }) {
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
 
-
+ /* const categories = [
+    { label: 'Photographie', , desc: 'Portraits, produits, événements' },
+    { label: 'Vidéo', icon: '🎬', desc: 'Clips, motion design, reels' },
+    { label: 'Community Management', icon: '📱', desc: 'Stratégie, contenu, engagement' },
+    { label: 'Infographie', icon: '✏️', desc: 'Affiches, flyers, identité visuelle' },
+  ];*/
   const categories = [
     { label: 'Photographie',icon: '📷', image: '/categories/photo.jpg', desc: 'Portraits, produits, événements' },
     { label: 'Vidéo', icon: '🎬', image: '/categories/video.jpg', desc: 'Clips, motion design, reels' },
