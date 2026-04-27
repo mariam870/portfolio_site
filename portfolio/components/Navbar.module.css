@@ -110,3 +110,12 @@
   .open2 { opacity: 0; }
   .open3 { transform: rotate(-45deg) translate(5px, -5px); }
 }
+@media (max-width: 480px) {
+  .logo {
+    font-size: 1rem;
+    letter-spacing: 0.08em;
+  }
+  .nav {
+    padding: 1rem;
+  }
+}
