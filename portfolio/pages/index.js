@@ -8,34 +8,14 @@ export default function Home({ featuredProjects }) {
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
 
-  /*const categories = [
-    { label: 'Photographie', icon: '📷', desc: 'Portraits, produits, événements' },
-    { label: 'Vidéo', icon: '🎬', desc: 'Clips, motion design, reels' },
-    { label: 'Community Management', icon: '📱', desc: 'Stratégie, contenu, engagement' },
-    { label: 'Infographie', icon: '✏️', desc: 'Affiches, flyers, identité visuelle' },
-  ];*/
+
   const categories = [
-  { 
-    label: 'Photographie', 
-    image: 'c:\\Users\\USER\\Downloads\\Photographie.jpg',
-    desc: 'Portraits, produits, événements' 
-  },
-  { 
-    label: 'Vidéo', 
-    image: URL('c:\\Users\\USER\\Downloads\\Eburny.mp4'),
-    desc: 'Clips, motion design, reels' 
-  },
-  { 
-    label: 'Community Management', 
-    image: URL('c:\\Users\\USER\\Downloads\\Community Management.jpg'),
-    desc: 'Stratégie, contenu, engagement' 
-  },
-  { 
-    label: 'Infographie', 
-    image: URL('c:\Users\USER\Downloads\Affiche Promotion young art studio.jpg'),
-    desc: 'Affiches, flyers, identité visuelle' 
-  },
-];
+    { label: 'Photographie',icon: '📷', image: '/categories/photo.jpg', desc: 'Portraits, produits, événements' },
+    { label: 'Vidéo', icon: '🎬', image: '/categories/video.jpg', desc: 'Clips, motion design, reels' },
+    { label: 'Community Management', icon: '📱', image: '/categories/community.jpg', desc: 'Stratégie, contenu, engagement' },
+    { label: 'Infographie', icon: '✏️', image: '/categories/infographie.jpg', desc: 'Affiches, flyers, identité visuelle' },
+  ];
+  
 
   return (
     <>
