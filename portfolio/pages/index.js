@@ -7,12 +7,13 @@ import styles from './index.module.css';
 export default function Home() {
   const [mounted, setMounted] = useState(false);
   const [featuredProjects, setFeaturedProjects] = useState([]);
+  const [settings, setSettings] = useState({});
 
-  const categories = [
-    { label: 'Photographie', icon: '📷', desc: 'Portraits, produits, evenements' },
-    { label: 'Video', icon: '🎬', desc: 'Clips, motion design, reels' },
-    { label: 'Community Management', icon: '📱', desc: 'Strategie, contenu, engagement' },
-    { label: 'Infographie', icon: '✏️', desc: 'Affiches, flyers, identite visuelle' },
+  const defaultCategories = [
+    { label: 'Photographie', icon: '📷', key: 'cat_image_0', desc: 'Portraits, produits, evenements' },
+    { label: 'Video', icon: '🎬', key: 'cat_image_1', desc: 'Clips, motion design, reels' },
+    { label: 'Community Management', icon: '📱', key: 'cat_image_2', desc: 'Strategie, contenu, engagement' },
+    { label: 'Infographie', icon: '✏️', key: 'cat_image_3', desc: 'Affiches, flyers, identite visuelle' },
   ];
 
   const fetchProjects = async () => {
@@ -20,15 +21,25 @@ export default function Home() {
       const res = await fetch('/api/projects');
       const all = await res.json();
       setFeaturedProjects(Array.isArray(all) ? all.slice(0, 6) : []);
-    } catch (e) {
-      console.error(e);
-    }
+    } catch (e) {}
+  };
+
+  const fetchSettings = async () => {
+    try {
+      const res = await fetch('/api/settings');
+      const data = await res.json();
+      setSettings(data || {});
+    } catch (e) {}
   };
 
   useEffect(() => {
     setMounted(true);
     fetchProjects();
-    const interval = setInterval(fetchProjects, 5000);
+    fetchSettings();
+    const interval = setInterval(() => {
+      fetchProjects();
+      fetchSettings();
+    }, 5000);
     return () => clearInterval(interval);
   }, []);
 
@@ -48,7 +59,7 @@ export default function Home() {
         <div className={styles.heroContent}>
           <div className={mounted ? `${styles.badge} ${styles.visible}` : styles.badge}>
             <span className={styles.dot}></span>
-            Disponible pour des projets
+            {settings.hero_badge || 'Disponible pour des projets'}
           </div>
           <h1 className={mounted ? `${styles.heroTitle} ${styles.visible}` : styles.heroTitle}>
             Je cree des
@@ -56,7 +67,7 @@ export default function Home() {
             memorables.
           </h1>
           <p className={mounted ? `${styles.heroSub} ${styles.visible}` : styles.heroSub}>
-            Etudiant en communication visuelle
+            {settings.hero_subtitle || 'Etudiant en communication visuelle — photographie, video, infographie & community management.'}
           </p>
           <div className={mounted ? `${styles.heroCta} ${styles.visible}` : styles.heroCta}>
             <Link href="/projets" className={styles.btnPrimary}>Voir mes projets</Link>
@@ -72,9 +83,15 @@ export default function Home() {
             <h2>Ce que je cree</h2>
           </div>
           <div className={styles.catGrid}>
-            {categories.map((cat, i) => (
+            {defaultCategories.map((cat, i) => (
               <div key={cat.label} className={styles.catCard}>
-                <span className={styles.catIcon}>{cat.icon}</span>
+                {settings[cat.key] ? (
+                  <div className={styles.catImageWrap}>
+                    <img src={settings[cat.key]} alt={cat.label} className={styles.catImage} />
+                  </div>
+                ) : (
+                  <span className={styles.catIcon}>{cat.icon}</span>
+                )}
                 <h3>{cat.label}</h3>
                 <p>{cat.desc}</p>
               </div>
