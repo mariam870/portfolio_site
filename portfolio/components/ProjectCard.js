@@ -1,17 +1,16 @@
-import Link from 'next/link';
 import styles from './ProjectCard.module.css';
 import { FiPlay, FiCamera, FiTrendingUp, FiLayout } from 'react-icons/fi';
 
 const CATEGORY_ICONS = {
   Photo: FiCamera,
-  Vidéo: FiPlay,
+  'Vidéo': FiPlay,
   'Community Management': FiTrendingUp,
   Infographie: FiLayout,
 };
 
 const CATEGORY_COLORS = {
   Photo: '#4a9eff',
-  Vidéo: '#ff6b6b',
+  'Vidéo': '#ff6b6b',
   'Community Management': '#50c878',
   Infographie: '#c8a96e',
 };
@@ -24,12 +23,19 @@ export default function ProjectCard({ project }) {
     <div className={styles.card}>
       <div className={styles.thumb}>
         {project.image_url ? (
-          <img src={project.image_url} alt={project.titre} />
-        ) : (
-          <div className={styles.placeholder}>
-            <Icon size={40} style={{ color }} />
-          </div>
-        )}
+          <img
+            src={project.image_url}
+            alt={project.titre}
+            loading="eager"
+            onError={e => {
+              e.target.style.display = 'none';
+              e.target.nextSibling.style.display = 'flex';
+            }}
+          />
+        ) : null}
+        <div className={styles.placeholder} style={{ display: project.image_url ? 'none' : 'flex' }}>
+          <Icon size={40} style={{ color }} />
+        </div>
         <div className={styles.overlay}>
           <span className={styles.category} style={{ '--cat-color': color }}>
             <Icon size={12} /> {project.category}
