@@ -4,29 +4,38 @@ import { useEffect, useState } from 'react';
 import ProjectCard from '../components/ProjectCard';
 import styles from './index.module.css';
 
-export default function Home({ featuredProjects }) {
+export default function Home() {
   const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
+  const [featuredProjects, setFeaturedProjects] = useState([]);
 
- /* const categories = [
-    { label: 'Photographie', , desc: 'Portraits, produits, événements' },
+  const categories = [
+    { label: 'Photographie', icon: '📷', desc: 'Portraits, produits, événements' },
     { label: 'Vidéo', icon: '🎬', desc: 'Clips, motion design, reels' },
     { label: 'Community Management', icon: '📱', desc: 'Stratégie, contenu, engagement' },
     { label: 'Infographie', icon: '✏️', desc: 'Affiches, flyers, identité visuelle' },
-  ];*/
-  const categories = [
-    { label: 'Photographie',icon: '📷', image: '/categories/photo.jpg', desc: 'Portraits, produits, événements' },
-    { label: 'Vidéo', icon: '🎬', image: '/categories/video.jpg', desc: 'Clips, motion design, reels' },
-    { label: 'Community Management', icon: '📱', image: '/categories/community.jpg', desc: 'Stratégie, contenu, engagement' },
-    { label: 'Infographie', icon: '✏️', image: '/categories/infographie.jpg', desc: 'Affiches, flyers, identité visuelle' },
   ];
-  
+
+  const fetchProjects = async () => {
+    try {
+      const res = await fetch('/api/projects', { cache: 'no-store' });
+      const all = await res.json();
+      setFeaturedProjects(Array.isArray(all) ? all.slice(0, 6) : []);
+    } catch {}
+  };
+
+  useEffect(() => {
+    setMounted(true);
+    fetchProjects();
+    // Actualise toutes les 5 secondes
+    const interval = setInterval(fetchProjects, 5000);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <>
       <Head>
         <title>Young_Art_Studio — Communication Visuelle & Design</title>
-        <meta name="description" content="Portfolio professionnel en communication visuelle — photographie, vidéo, infographie, community management." />
+        <meta name="description" content="Portfolio professionnel en communication visuelle." />
       </Head>
 
       {/* HERO */}
@@ -70,18 +79,11 @@ export default function Home({ featuredProjects }) {
           </div>
           <div className={styles.catGrid}>
             {categories.map((cat, i) => (
-             /* <div key={cat.label} className={styles.catCard} style={{ animationDelay: `${i * 0.1}s` }}>
+              <div key={cat.label} className={styles.catCard} style={{ animationDelay: `${i * 0.1}s` }}>
                 <span className={styles.catIcon}>{cat.icon}</span>
                 <h3>{cat.label}</h3>
                 <p>{cat.desc}</p>
-              </div>*/
-              <div key={cat.label} className={styles.catCard}>
-              <div className={styles.catImageWrap}>
-               <img src={cat.image} alt={cat.label} className={styles.catImage} />
-             </div>
-             <h3>{cat.label}</h3>
-              <p>{cat.desc}</p>
-             </div>
+              </div>
             ))}
           </div>
         </div>
@@ -117,19 +119,4 @@ export default function Home({ featuredProjects }) {
       </section>
     </>
   );
-}
-
-export async function getStaticProps() {
-  try {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
-    const res = await fetch(`${baseUrl}/api/projects`);
-    const all = await res.json();
-    const featured = Array.isArray(all) ? all.slice(0, 6) : [];
-    return { 
-      props: { featuredProjects: featured },
-      revalidate: 10 // Actualise toutes les 10 secondes
-    };
-  } catch {
-    return { props: { featuredProjects: [] }, revalidate: 10 };
-  }
 }

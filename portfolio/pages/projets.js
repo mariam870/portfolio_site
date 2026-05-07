@@ -5,34 +5,27 @@ import styles from './projets.module.css';
 
 const CATEGORIES = ['Tous', 'Photo', 'Vidéo', 'Community Management', 'Infographie'];
 
-export default function Projets({ initialProjects }) {
-  const [projects, setProjects] = useState(initialProjects);
+export default function Projets() {
+  const [projects, setProjects] = useState([]);
   const [active, setActive] = useState('Tous');
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const filtered = active === 'Tous' ? projects : projects.filter(p => p.category === active);
 
-  const fetchProjects = async (cat) => {
-    setLoading(true);
-    const url = cat && cat !== 'Tous' ? `/api/projects?category=${encodeURIComponent(cat)}` : '/api/projects';
-    const res = await fetch(url);
-    const data = await res.json();
-    setProjects(Array.isArray(data) ? data : []);
+  const fetchProjects = async () => {
+    try {
+      const res = await fetch('/api/projects', { cache: 'no-store' });
+      const data = await res.json();
+      setProjects(Array.isArray(data) ? data : []);
+    } catch {}
     setLoading(false);
   };
 
-  // Recharge les projets toutes les 30 secondes
   useEffect(() => {
-    const interval = setInterval(() => {
-      fetchProjects(active);
-    }, 30000);
+    fetchProjects();
+    const interval = setInterval(fetchProjects, 5000);
     return () => clearInterval(interval);
-  }, [active]);
-
-  const handleFilter = (cat) => {
-    setActive(cat);
-    fetchProjects(cat);
-  };
+  }, []);
 
   return (
     <>
@@ -51,25 +44,22 @@ export default function Projets({ initialProjects }) {
         </div>
 
         <div className={styles.container}>
-          {/* Filtres */}
           <div className={styles.filters}>
             {CATEGORIES.map(cat => (
               <button
                 key={cat}
                 className={`${styles.filterBtn} ${active === cat ? styles.activeFilter : ''}`}
-                onClick={() => handleFilter(cat)}
+                onClick={() => setActive(cat)}
               >
                 {cat}
               </button>
             ))}
           </div>
 
-          {/* Compteur */}
           <div className={styles.count}>
             <span>{filtered.length} projet{filtered.length !== 1 ? 's' : ''}</span>
           </div>
 
-          {/* Grid */}
           {loading ? (
             <div className={styles.loading}>
               {[...Array(6)].map((_, i) => <div key={i} className={styles.skeleton}></div>)}
@@ -87,15 +77,4 @@ export default function Projets({ initialProjects }) {
       </div>
     </>
   );
-}
-
-export async function getServerSideProps() {
-  try {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
-    const res = await fetch(`${baseUrl}/api/projects`);
-    const data = await res.json();
-    return { props: { initialProjects: Array.isArray(data) ? data : [] } };
-  } catch {
-    return { props: { initialProjects: [] } };
-  }
 }
