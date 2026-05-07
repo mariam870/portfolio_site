@@ -2,13 +2,8 @@ import Head from 'next/head';
 import { useState, useEffect } from 'react';
 import ProjectCard from '../components/ProjectCard';
 import styles from './projets.module.css';
-useEffect(() => {
-  // Recharge les projets toutes les 30 secondes
-  const interval = setInterval(() => {
-    fetchProjects(active);
-  }, 30000);
-  return () => clearInterval(interval);
-}, [active]);
+
+const CATEGORIES = ['Tous', 'Photo', 'Vidéo', 'Community Management', 'Infographie'];
 
 export default function Projets({ initialProjects }) {
   const [projects, setProjects] = useState(initialProjects);
@@ -25,6 +20,14 @@ export default function Projets({ initialProjects }) {
     setProjects(Array.isArray(data) ? data : []);
     setLoading(false);
   };
+
+  // Recharge les projets toutes les 30 secondes
+  useEffect(() => {
+    const interval = setInterval(() => {
+      fetchProjects(active);
+    }, 30000);
+    return () => clearInterval(interval);
+  }, [active]);
 
   const handleFilter = (cat) => {
     setActive(cat);
