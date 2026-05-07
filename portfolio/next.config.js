@@ -1,9 +1,7 @@
-/** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
     domains: [
-      'your-supabase-project.supabase.co', // Remplace par ton URL Supabase
-      'via.placeholder.com',
+      'ugbyejsouimqqntmdkab.supabase.co',
       'images.unsplash.com',
     ],
   },
