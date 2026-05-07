@@ -2,8 +2,6 @@ import Head from 'next/head';
 import { useState, useEffect } from 'react';
 import ProjectCard from '../components/ProjectCard';
 import styles from './projets.module.css';
-
-const CATEGORIES = ['Tous', 'Photo', 'Vidéo', 'Community Management', 'Infographie'];
 useEffect(() => {
   // Recharge les projets toutes les 30 secondes
   const interval = setInterval(() => {
