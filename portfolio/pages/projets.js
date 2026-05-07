@@ -4,6 +4,13 @@ import ProjectCard from '../components/ProjectCard';
 import styles from './projets.module.css';
 
 const CATEGORIES = ['Tous', 'Photo', 'Vidéo', 'Community Management', 'Infographie'];
+useEffect(() => {
+  // Recharge les projets toutes les 30 secondes
+  const interval = setInterval(() => {
+    fetchProjects(active);
+  }, 30000);
+  return () => clearInterval(interval);
+}, [active]);
 
 export default function Projets({ initialProjects }) {
   const [projects, setProjects] = useState(initialProjects);

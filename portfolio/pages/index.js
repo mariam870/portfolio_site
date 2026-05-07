@@ -119,14 +119,17 @@ export default function Home({ featuredProjects }) {
   );
 }
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
   try {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
     const res = await fetch(`${baseUrl}/api/projects`);
     const all = await res.json();
     const featured = Array.isArray(all) ? all.slice(0, 6) : [];
-    return { props: { featuredProjects: featured } };
+    return { 
+      props: { featuredProjects: featured },
+      revalidate: 10 // Actualise toutes les 10 secondes
+    };
   } catch {
-    return { props: { featuredProjects: [] } };
+    return { props: { featuredProjects: [] }, revalidate: 10 };
   }
 }
