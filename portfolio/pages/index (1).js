@@ -9,24 +9,25 @@ export default function Home() {
   const [featuredProjects, setFeaturedProjects] = useState([]);
 
   const categories = [
-    { label: 'Photographie', icon: '📷', desc: 'Portraits, produits, événements' },
-    { label: 'Vidéo', icon: '🎬', desc: 'Clips, motion design, reels' },
-    { label: 'Community Management', icon: '📱', desc: 'Stratégie, contenu, engagement' },
-    { label: 'Infographie', icon: '✏️', desc: 'Affiches, flyers, identité visuelle' },
+    { label: 'Photographie', icon: '📷', desc: 'Portraits, produits, evenements' },
+    { label: 'Video', icon: '🎬', desc: 'Clips, motion design, reels' },
+    { label: 'Community Management', icon: '📱', desc: 'Strategie, contenu, engagement' },
+    { label: 'Infographie', icon: '✏️', desc: 'Affiches, flyers, identite visuelle' },
   ];
 
   const fetchProjects = async () => {
     try {
-      const res = await fetch('/api/projects', { cache: 'no-store' });
+      const res = await fetch('/api/projects');
       const all = await res.json();
       setFeaturedProjects(Array.isArray(all) ? all.slice(0, 6) : []);
-    } catch {}
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   useEffect(() => {
     setMounted(true);
     fetchProjects();
-    // Actualise toutes les 5 secondes
     const interval = setInterval(fetchProjects, 5000);
     return () => clearInterval(interval);
   }, []);
@@ -34,11 +35,10 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Young_Art_Studio — Communication Visuelle & Design</title>
-        <meta name="description" content="Portfolio professionnel en communication visuelle." />
+        <title>Young_Art_Studio</title>
+        <meta name="description" content="Portfolio communication visuelle." />
       </Head>
 
-      {/* HERO */}
       <section className={styles.hero}>
         <div className={styles.heroBg}>
           <div className={styles.heroOrb1}></div>
@@ -46,40 +46,34 @@ export default function Home() {
           <div className={styles.heroGrid}></div>
         </div>
         <div className={styles.heroContent}>
-          <div className={`${styles.badge} ${mounted ? styles.visible : ''}`}>
+          <div className={mounted ? `${styles.badge} ${styles.visible}` : styles.badge}>
             <span className={styles.dot}></span>
             Disponible pour des projets
           </div>
-          <h1 className={`${styles.heroTitle} ${mounted ? styles.visible : ''}`}>
-            Je crée des<br />
-            <span className={styles.highlight}>expériences<br />visuelles</span><br />
-            mémorables.
+          <h1 className={mounted ? `${styles.heroTitle} ${styles.visible}` : styles.heroTitle}>
+            Je cree des
+            <span className={styles.highlight}> experiences visuelles </span>
+            memorables.
           </h1>
-          <p className={`${styles.heroSub} ${mounted ? styles.visible : ''}`}>
-            Étudiant en communication visuelle — photographie, vidéo,<br />
-            infographie & community management.
+          <p className={mounted ? `${styles.heroSub} ${styles.visible}` : styles.heroSub}>
+            Etudiant en communication visuelle
           </p>
-          <div className={`${styles.heroCta} ${mounted ? styles.visible : ''}`}>
+          <div className={mounted ? `${styles.heroCta} ${styles.visible}` : styles.heroCta}>
             <Link href="/projets" className={styles.btnPrimary}>Voir mes projets</Link>
             <Link href="/contact" className={styles.btnSecondary}>Me contacter</Link>
           </div>
         </div>
-        <div className={styles.heroScroll}>
-          <span>Scroll</span>
-          <div className={styles.scrollLine}></div>
-        </div>
       </section>
 
-      {/* CATEGORIES */}
       <section className={styles.section}>
         <div className={styles.container}>
           <div className={styles.sectionHeader}>
             <span className={styles.label}>Disciplines</span>
-            <h2>Ce que je crée</h2>
+            <h2>Ce que je cree</h2>
           </div>
           <div className={styles.catGrid}>
             {categories.map((cat, i) => (
-              <div key={cat.label} className={styles.catCard} style={{ animationDelay: `${i * 0.1}s` }}>
+              <div key={cat.label} className={styles.catCard}>
                 <span className={styles.catIcon}>{cat.icon}</span>
                 <h3>{cat.label}</h3>
                 <p>{cat.desc}</p>
@@ -89,13 +83,12 @@ export default function Home() {
         </div>
       </section>
 
-      {/* FEATURED PROJECTS */}
       <section className={styles.section}>
         <div className={styles.container}>
           <div className={styles.sectionHeader}>
             <span className={styles.label}>Portfolio</span>
-            <h2>Projets récents</h2>
-            <Link href="/projets" className={styles.seeAll}>Voir tout →</Link>
+            <h2>Projets recents</h2>
+            <Link href="/projets" className={styles.seeAll}>Voir tout</Link>
           </div>
           {featuredProjects.length > 0 ? (
             <div className={styles.projectGrid}>
@@ -103,17 +96,16 @@ export default function Home() {
             </div>
           ) : (
             <div className={styles.empty}>
-              <p>Les projets apparaîtront ici une fois ajoutés depuis l'<Link href="/admin">interface admin</Link>.</p>
+              <p>Les projets apparaitront ici une fois ajoutes.</p>
             </div>
           )}
         </div>
       </section>
 
-      {/* CTA BAND */}
       <section className={styles.ctaBand}>
         <div className={styles.container}>
           <h2>Travaillons ensemble.</h2>
-          <p>Un projet en tête ? Parlons-en.</p>
+          <p>Un projet en tete ? Parlons-en.</p>
           <Link href="/contact" className={styles.btnPrimary}>Prendre contact</Link>
         </div>
       </section>
